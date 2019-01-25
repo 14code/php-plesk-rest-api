@@ -1,1 +1,1 @@
-# PHP-Plesk-REST-API
+# PHP Plesk REST API
