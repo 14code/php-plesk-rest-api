@@ -2,6 +2,8 @@
     "name": "14code/php-plesk-rest-api",
     "description": "",
     "version": "0.0.1",
+    "type": "library",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "I4code\\PleskApi\\": "src/"
