@@ -1,4 +1,4 @@
-# PHP Plesk REST API
+# PHP Plesk REST API Client
 A PHP wrapper for Plesk Onyx REST API  
   
   
