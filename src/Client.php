@@ -8,6 +8,7 @@ class Client
 {
     private $host;
     private $httpClient;
+
     private $token;
 
 
@@ -46,11 +47,11 @@ class Client
     }
 
 
-    public function authenticate($user, $password)
+    public function authenticate()
     {
+        return $this;
         $httpClient = $this->getHttpClient();
         $httpClient->authenticate($user, $password);
-        return $this;
     }
 
 

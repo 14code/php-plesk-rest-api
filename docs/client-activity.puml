@@ -1,0 +1,31 @@
+@startuml
+start
+:UI: Select host;
+:Create client instance;
+
+package Authenticate {
+if (ENV: Token exists?) then
+else
+if (UI: User has token?) then
+:UI: Insert token;
+:Store token in environment;
+else
+:UI: Insert user credentials;
+:Store credentials in environment;
+endif;
+endif;
+}
+
+:Login;
+
+:This is on defined on
+several **lines**;
+
+while (data available?)
+  :read data;
+  :generate diagrams;
+endwhile
+
+stop
+
+@enduml
