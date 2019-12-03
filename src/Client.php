@@ -75,22 +75,11 @@ class Client
     }
 
 
-    public function getServerInfo()
-    {
-        $httpClient = $this->getHttpClient();
-        $response = $httpClient->get('/server');
-        $json = (string) $response->getBody();
-        fwrite(STDERR, $json);
-        return json_decode($json);
-    }
-
-
     public function getDomains()
     {
         $httpClient = $this->getHttpClient();
         $response = $httpClient->get('/domains');
         $json = (string) $response->getBody();
-        fwrite(STDERR, $json);
         return json_decode($json);
     }
 

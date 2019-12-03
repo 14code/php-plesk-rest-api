@@ -42,7 +42,9 @@ class ClientTest extends TestCase
     {
         $client = new Client($this->host);
         $client->setAuth($this->auth);
-        $serverInfo = $client->getServerInfo();
+        $api = new \I4code\PleskApi\Api\Server($client);
+        $serverInfo = $api->show();
+        fwrite(STDERR, print_r($serverInfo, true));
         $this->assertIsObject($serverInfo);
     }
 
