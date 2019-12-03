@@ -15,6 +15,27 @@ function selectHost()
     return $host;
 }
 
+function getAuthFromEnv()
+{
+    $token = getenv('TESTAPITOKEN');
+    if (!empty($token)) {
+        return (object)[
+            'type' => 'token',
+            'token' => $token
+        ];
+    }
+    $user = getenv('TESTAPIUSER');
+    $pass = getenv('TESTAPIPASS');
+    if (!empty($user) && !empty($pass)) {
+        return (object)[
+            'type' => 'login',
+            'user' => $user,
+            'password' => $pass
+        ];
+    }
+    return null;
+}
+
 function useToken()
 {
     $token = getenv('TESTAPITOKEN');
@@ -54,7 +75,7 @@ function useCredentials()
         return (object)[
             'type' => 'login',
             'user' => $user,
-            'pass' => $pass
+            'password' => $pass
         ];
     }
     return null;

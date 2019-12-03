@@ -9,7 +9,7 @@ class Client
     private $host;
     private $httpClient;
 
-    private $token;
+    private $auth;
 
 
     public function __construct(string $host)
@@ -43,15 +43,35 @@ class Client
             ];
             $this->httpClient = new HttpClient($config);
         }
-        return $this->httpClient;
+        return $this->authenticate($this->httpClient);
     }
 
 
-    public function authenticate()
+    public function setAuth(object $auth)
     {
+        $this->auth = $auth;
         return $this;
-        $httpClient = $this->getHttpClient();
-        $httpClient->authenticate($user, $password);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getAuth()
+    {
+        return $this->auth;
+    }
+
+
+    public function authenticate(HttpClient $httpClient)
+    {
+        $auth = $this->getAuth();
+        if (is_object($auth)) {
+            if ('login' == $auth->type) {
+                $httpClient->addHeader('Authorization', sprintf('Basic %s', base64_encode($this->auth->user . ':' . $this->auth->password)));
+            }
+        }
+        return $httpClient;
     }
 
 

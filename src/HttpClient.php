@@ -15,6 +15,7 @@ class HttpClient
         'path' => ''
     ];
     private $auth;
+    private $headers = [];
     private $psr17Factory;
     private $psr18Client;
 
@@ -45,32 +46,28 @@ class HttpClient
     }
 
 
+    public function addHeader($name, $value)
+    {
+        $this->headers[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+
     public function createRequest($method, $uri)
     {
         $request = $this->psr17Factory->createRequest($method, $uri);
-        if (is_array($this->auth)) {
-            $request = $this->authenticateRequest($request);
+        foreach ($this->getHeaders() as $name => $value) {
+            $request = $request->withAddedHeader($name, $value);
         }
         return $request;
-    }
-
-
-    public function authenticateRequest(RequestInterface $request)
-    {
-        if (is_array($this->auth)) {
-            $request = $request->withAddedHeader('Authorization', sprintf('Basic %s', base64_encode($this->auth['user'] . ':' . $this->auth['password'])));
-        }
-        return $request;
-    }
-
-
-    public function authenticate($user, $password)
-    {
-        $this->auth = [
-            'user' => $user,
-            'password' => $password
-        ];
-        return $this;
     }
 
 

@@ -13,7 +13,11 @@ class ClientTest extends TestCase
     public function setUp(): void
     {
         $this->host = \I4code\PleskApi\selectHost();
-        $this->auth = \I4code\PleskApi\useToken();
+        $this->auth = \I4code\PleskApi\getAuthFromEnv();
+
+        if (empty($this->auth)) {
+            $this->auth = \I4code\PleskApi\useToken();
+        }
 
         if (empty($this->auth)) {
             $this->auth = \I4code\PleskApi\useCredentials();
@@ -26,27 +30,27 @@ class ClientTest extends TestCase
         $this->assertInstanceOf(Client::class, $client);
     }
 
-    public function testAuthenticate()
+    public function testSetAuth()
     {
         fwrite(STDIN, php_sapi_name());
         $client = new Client($this->host);
-        $client->authenticate($this->auth);
-        $this->assertTrue($client->login());
+        $client->setAuth($this->auth);
+        $this->assertTrue(true);
     }
 
     public function testGetServerInfo()
     {
         $client = new Client($this->host);
-        $client->authenticate($this->user, $this->pass);
-        $serverInfo = $client->getServerInfo($this->user, $this->pass);
+        $client->setAuth($this->auth);
+        $serverInfo = $client->getServerInfo();
         $this->assertIsObject($serverInfo);
     }
 
     public function testGetDomains()
     {
         $client = new Client($this->host);
-        $client->authenticate($this->user, $this->pass);
-        $domains = $client->getDomains($this->user, $this->pass);
+        $client->setAuth($this->auth);
+        $domains = $client->getDomains();
         $this->assertIsArray($domains);
     }
 
