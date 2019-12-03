@@ -1,51 +1,23 @@
 <?php
-
+declare(strict_types=1);
 
 namespace I4code\PleskApi\Api;
 
-
+use I4code\PleskApi\Api\Server\Ips;
 use I4code\PleskApi\Client;
 
-class Server
+class Server extends Api
 {
     protected $path = '/server';
-
-    private $client;
-
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-    }
 
     public function show()
     {
         return $this->get($this->getPath());
     }
 
-
-    public function get($path)
+    public function ips()
     {
-        $httpClient = $this->getClient()->getHttpClient();
-        $response = $httpClient->get($path);
-        $json = (string) $response->getBody();
-        return json_decode($json);
-    }
-
-
-    /**
-     * @return Client
-     */
-    public function getClient()
-    {
-        return $this->client;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->path;
+        return new Ips($this->getClient());
     }
 
 }

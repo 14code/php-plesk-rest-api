@@ -42,17 +42,27 @@ class ClientTest extends TestCase
     {
         $client = new Client($this->host);
         $client->setAuth($this->auth);
-        $api = new \I4code\PleskApi\Api\Server($client);
-        $serverInfo = $api->show();
-        fwrite(STDERR, print_r($serverInfo, true));
+        $serverApi = new \I4code\PleskApi\Api\Server($client);
+        $serverInfo = $serverApi->show();
         $this->assertIsObject($serverInfo);
+    }
+
+    public function testGetServerIps()
+    {
+        $client = new Client($this->host);
+        $client->setAuth($this->auth);
+        $api = (new \I4code\PleskApi\Api\Server($client))->ips();
+        $ips = $api->all();
+        $this->assertIsArray($ips);
     }
 
     public function testGetDomains()
     {
         $client = new Client($this->host);
         $client->setAuth($this->auth);
-        $domains = $client->getDomains();
+        $domainsApi = new \I4code\PleskApi\Api\Domains($client);
+        $domains = $domainsApi->all();
+        fwrite(STDERR, print_r($domains, true));
         $this->assertIsArray($domains);
     }
 
